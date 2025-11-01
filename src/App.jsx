@@ -12,13 +12,21 @@ function App() {
   };
 
   const handlePhotoUpload = (e) => {
-    const files = Array.from(e.target.files).slice(0, 5);
-    const previews = files.map((file) => ({
-      file,
-      url: URL.createObjectURL(file),
-    }));
-    setPhotos(previews);
-  };
+  const files = Array.from(e.target.files);
+  
+  if (photos.length + files.length > 5) {
+    alert("You can only upload up to 5 photos.");
+    return;
+  }
+
+  const previews = files.map((file) => ({
+    file,
+    url: URL.createObjectURL(file),
+  }));
+
+  setPhotos((prev) => [...prev, ...previews]);
+};
+
 
   const handleSizeChange = (e) => setSize(e.target.value);
 
