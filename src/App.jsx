@@ -11,11 +11,15 @@ function App() {
     "8x10": 5,
   };
 
-  const handlePhotoUpload = (e) => {
+const handlePhotoUpload = (e) => {
   const files = Array.from(e.target.files);
-  
-  if (photos.length + files.length > 5) {
-    alert("You can only upload up to 5 photos.");
+
+  // Check if total exceeds 5
+  if (files.length > 5) {
+    alert("You can only upload up to 5 photos. The upload will be cleared.");
+    setPhotos([]); // Clear existing photos
+    setSize("4x6"); // Reset size
+    e.target.value = ""; // Reset file input
     return;
   }
 
@@ -24,9 +28,8 @@ function App() {
     url: URL.createObjectURL(file),
   }));
 
-  setPhotos((prev) => [...prev, ...previews]);
+  setPhotos(previews); 
 };
-
 
   const handleSizeChange = (e) => setSize(e.target.value);
 
